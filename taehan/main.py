@@ -1,6 +1,6 @@
 from graph.rag_graph import create_rag_graph
 from langchain_core.runnables import RunnableConfig
-from utils.stream_graph import stream_graph
+from utils.stream_graph import stream_graph, display_final_result
 
 def main():
     """RAG 시스템을 실행합니다."""
@@ -31,6 +31,7 @@ def main():
 
     # 그래프 실행
     stream_graph(rag_graph, inputs, config, ["agent", "rewrite", "generate"])
+    # display_final_result(rag_graph, inputs, config)
 
 if __name__ == "__main__":
     main()
