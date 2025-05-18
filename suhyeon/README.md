@@ -1,12 +1,12 @@
 
-# 퇴직연금 RAG 기반 챗봇
+# 퇴직연금 RAG 기반 agent
 
-이 프로젝트는 퇴직연금 관련 정보를 제공하는 RAG(Retrieval-Augmented Generation) 기반의 챗봇 시스템입니다.
+이 프로젝트는 절세 관련 정보를 제공하는 RAG(Retrieval-Augmented Generation) 기반의 agent 
 
 ## 주요 기능
 
 - 사용자별 대화 세션 관리
-- RAG를 통한 정확한 퇴직연금 정보 제공
+- RAG를 통한 정확한 절세 관련 정보 제공 : 1. 절세 관련 계좌 비교(ISA, IRP, 연금저축), 2. 퇴직 연금 절세 관련, 3. 세금 절세 관련 전반(연말정산)
 - 대화 기록 저장 및 조회
 - 쿠키 기반의 사용자 식별
 
@@ -41,26 +41,6 @@ agent/
 └── graph/
     └── rag_graph.py      # RAG 시스템 구현
 ```
-
-### 파일 설명
-
-- `main.py`: FastAPI 서버 실행 및 라우터 등록
-- `requirements.txt`: 필요한 Python 패키지 목록
-- `.env`: 데이터베이스 연결 정보와 API 키 설정
-- `chat.py`: 채팅 API 엔드포인트 구현
-- `database.py`: PostgreSQL 데이터베이스 연결 설정
-- `config.py`: 전역 설정 (API 키, 모델 설정 등)
-- `chat.py` (models): User, ChatSession, ChatMessage 모델 정의
-- `rag_graph.py`: RAG 시스템 구현
-- `nodes/`: RAG 시스템의 각 단계별 처리 로직
-  - `route_question.py`: 질문 분석 및 처리 방향 결정
-  - `generate.py`: 최종 응답 생성
-  - `grade_generation.py`: 생성된 응답 품질 평가
-  - `grade_documents.py`: 검색된 문서 관련성 평가
-- `state/`: RAG 시스템의 상태 관리
-  - `state.py`: 시스템 상태 정의 및 관리 (질문, 문서, 생성된 응답 등)
-- `utils/`: 유틸리티 함수 모음
-  - `prompts.py`: RAG 시스템에서 사용되는 프롬프트 템플릿 관리 (질문 라우팅, 문서 평가, 답변 생성, 환각 평가, 답변 평가)
 
 ### 주의사항
 
