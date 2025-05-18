@@ -33,8 +33,6 @@ agent/
 │   ├── generate.py        # 응답 생성 로직
 │   ├── grade_generation.py # 생성된 응답 평가
 │   └── grade_documents.py # 검색된 문서 평가
-├── state/                 # RAG 시스템 상태 관리
-│   └── state.py          # 상태 정의 및 관리
 ├── utils/                 # 유틸리티 함수
 │   ├── __init__.py
 │   └── prompts.py        # 프롬프트 템플릿 관리
