@@ -1,0 +1,17 @@
+fastapi>=0.104.1
+uvicorn>=0.24.0
+sqlalchemy>=2.0.23
+psycopg2-binary>=2.9.9
+python-dotenv>=1.0.0
+pydantic>=2.5.2
+langchain>=0.0.350
+langchain-openai>=0.0.5
+langgraph>=0.0.20
+chromadb>=0.4.22
+sentence-transformers>=2.2.2
+faiss-cpu>=1.7.4
+pypdf>=3.17.0
+unstructured>=0.10.30
+tiktoken>=0.5.1
+langchain-community>=0.0.10
+pymupdf>=1.23.7 
