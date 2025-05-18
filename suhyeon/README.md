@@ -13,7 +13,7 @@
 ## 프로젝트 구조
 
 ```
-agent/
+suhyeon/
 ├── main.py                 # FastAPI 서버 실행 파일
 ├── requirements.txt        # 의존성 패키지 목록
 ├── .env                    # 환경 변수 설정 파일
@@ -59,7 +59,7 @@ agent/
 1. 저장소 클론
 ```bash
 git clone [repository-url]
-cd agent
+cd suhyeon
 ```
 
 2. 가상환경 생성 및 활성화
