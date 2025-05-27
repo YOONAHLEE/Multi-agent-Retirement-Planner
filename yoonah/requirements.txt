@@ -13,3 +13,4 @@ schedule==1.2.1
 termcolor>=2.4.0
 tavily-python>=0.2.6
 ollama>=0.1.6
+feedparser
