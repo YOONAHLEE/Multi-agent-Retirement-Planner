@@ -325,29 +325,32 @@ builder.add_edge("save", END)
 # Compile app
 adaptive_rag = builder.compile()
 
-# Initialize state with required keys
-inputs = {
-    "date": date.today().isoformat(),
-    "query": "오늘의 금융 보고서를 작성해주세요",
-    "documents": [],  # Initialize empty documents list
-    "doc_summary_chunks": [],
-    "doc_summary": "",
-    "web_summary": "",
-    "final_output": "",
-    "db_path": SUMMARY_CACHE_PATH
-}
 
-final_output = adaptive_rag.invoke(inputs)
+if __name__ == "__main__":
+
+    # Initialize state with required keys
+    inputs = {
+        "date": date.today().isoformat(),
+        "query": "오늘의 금융 보고서를 작성해주세요",
+        "documents": [],  # Initialize empty documents list
+        "doc_summary_chunks": [],
+        "doc_summary": "",
+        "web_summary": "",
+        "final_output": "",
+        "db_path": SUMMARY_CACHE_PATH
+    }
+
+    final_output = adaptive_rag.invoke(inputs)
 
 
-# Visualize graph
-# png_graph = adaptive_rag.get_graph().draw_mermaid_png()
-png_graph = adaptive_rag.get_graph().draw_mermaid_png(
-    draw_method=MermaidDrawMethod.PYPPETEER
-)
+    # Visualize graph
+    # png_graph = adaptive_rag.get_graph().draw_mermaid_png()
+    png_graph = adaptive_rag.get_graph().draw_mermaid_png(
+        draw_method=MermaidDrawMethod.PYPPETEER
+    )
 
-with open("graph.png", "wb") as f:
-    f.write(png_graph)
+    with open("graph.png", "wb") as f:
+        f.write(png_graph)
 
 
 

@@ -1,18 +1,21 @@
 # Financial Report Generation Pipeline
 
-![Pipeline Graph](graph.png)
+<img src="graph.png" alt="Pipeline Graph" width="400"/>
 
 ## Overview
-This project implements an advanced financial report generation pipeline using LangGraph and LangChain. It combines daily financial document analysis, web search, and AI-powered summarization to create comprehensive financial reports for Korean investors.
 
-## Features
-- **Document Processing**: Parses and analyzes financial documents using Upstage's document parser
-- **Vector Database Integration**: Uses Chroma for efficient document storage and retrieval
-- **Web Search Integration**: Incorporates Tavily search for real-time market insights
-- **AI-Powered Summarization**: Utilizes GPT-4 for intelligent document and web content summarization
-- **Modular Pipeline**: Implements a flexible graph-based workflow using LangGraph
+This project delivers an advanced, modular pipeline for automated financial report generation, tailored for Korean investors. Leveraging LangGraph and LangChain, it integrates daily financial document analysis, real-time web search, and AI-powered summarization to produce comprehensive, actionable reports.
+
+## Key Features
+
+- **Automated Document Parsing** with Upstage
+- **Fast Retrieval** using Chroma vector database
+- **Real-Time Market Insights** via Tavily web search
+- **AI Summarization** powered by Claude 3.7
+- **Modular, Extensible Pipeline** built with LangGraph
 
 ## Prerequisites
+
 - Python 3.11+
 - OpenAI API key
 - Tavily API key
@@ -20,94 +23,84 @@ This project implements an advanced financial report generation pipeline using L
 
 ## Installation
 
-1. Clone the repository:
-```bash
-git clone [repository-url]
-cd [repository-name]
-```
+1. **Clone the repository:**
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+2. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-3. Set up environment variables:
-Create a `openai.env` file with your API keys:
-```
-OPENAI_API_KEY=your_openai_api_key
-TAVILY_API_KEY=your_tavily_api_key
-```
+3. **Configure environment variables:**
+   Create an `openai.env` file with your API keys:
+   ```
+   OPENAI_API_KEY=your_openai_api_key
+   TAVILY_API_KEY=your_tavily_api_key
+   ```
+> **Note:** Prepare a `.env` or `openai.env` file with required API keys.
 
 ## Project Structure
+
 ```
 .
-├── data/                          # Directory for storing PDF documents
-├── cache_db/                      # Vector database storage
-├── reports/                       # Generated report outputs
-├── financial_report_pipeline.py   # Main pipeline implementation
+├── data/                          # PDF document storage
+├── cache_db/                      # Vector database files
+├── reports/                       # Generated reports
+├── financial_report_pipeline.py   # Main pipeline logic
 ├── store_docs.py                  # Document fetching utilities
-└── requirements.txt               # Project dependencies
+└── requirements.txt               # Dependency list
 ```
 
 ## Pipeline Components
 
-### 1. Document Loading (`load_docs`)
-- Initializes the pipeline state
-- Checks for existing documents in Chroma database
-- Fetches new documents if needed
-- Converts documents to vector format
+1. **Document Loading (`load_docs`)**
+   - Initializes pipeline state and checks Chroma for existing documents.
+   - Fetches and vectorizes new documents as needed.
 
-### 2. Document Summarization (`summarize_documents`)
-- Implements map-reduce summarization
-- Processes each document section
-- Generates comprehensive summaries
-- Saves intermediate results
+2. **Document Summarization (`summarize_documents`)**
+   - Applies map-reduce summarization to document sections.
+   - Produces comprehensive summaries and saves intermediate results.
 
-### 3. Web Search (`search_general_web`/`search_certain_web`)
-- Performs real-time market research
-- Supports both general and specific queries
-- Integrates with Tavily search API
-- Generates market insights summaries
+3. **Web Search (`search_general_web` / `search_certain_web`)**
+   - Conducts real-time market research via Tavily.
+   - Supports both general and targeted queries.
+   - Summarizes market insights.
 
-### 4. Output Merging (`merge_outputs`)
-- Combines document and web summaries
-- Generates structured financial reports
-- Includes investment recommendations
-- Formats output for easy reading
+4. **Output Merging (`merge_outputs`)**
+   - Integrates document and web summaries.
+   - Produces structured, actionable financial reports.
 
-### 5. Report Saving (`save_output`)
-- Saves final reports in markdown format
-- Organizes outputs by date
-- Maintains report history
+5. **Report Saving (`save_output`)**
+   - Saves final reports in markdown format, organized by date.
+   - Maintains a historical archive.
 
 ## Usage
 
-1. Run the pipeline:
-```python
-from financial_report_pipeline import adaptive_rag
+1. **Run the pipeline:**
+   ```python
+   from financial_report_pipeline import adaptive_rag
 
-inputs = {
-    "date": date.today().isoformat(),
-    "query": "오늘의 금융 보고서를 작성해주세요",
-    "documents": [],
-    "doc_summary_chunks": [],
-    "doc_summary": "",
-    "web_summary": "",
-    "final_output": "",
-    "db_path": "cache_db"
-}
+   inputs = {
+       "date": date.today().isoformat(),
+       "query": "오늘의 금융 보고서를 작성해주세요",
+       "documents": [],
+       "doc_summary_chunks": [],
+       "doc_summary": "",
+       "web_summary": "",
+       "final_output": "",
+       "db_path": "cache_db"
+   }
 
-final_output = adaptive_rag.invoke(inputs)
-```
+   final_output = adaptive_rag.invoke(inputs)
+   ```
 
-2. Generated reports will be saved in the `reports/` directory with the following structure:
+2. **Access generated reports** in the `reports/` directory:
    - `middle_report_doc_summary_[date].md`: Document summaries
-   - `middle_report_general_search_[date].md`: General market insights
+   - `middle_report_general_search_[date].md`: Market insights
    - `final_report_[date].md`: Final comprehensive report
 
-## Report Format
+## Report Structure
 
-The generated reports follow a structured format:
+Each report follows a standardized format:
 
 1. **금융 시장 동향** (Financial Market Trends)
    - 주요 지표 및 추세 (Key Indicators and Trends)
@@ -130,15 +123,49 @@ The generated reports follow a structured format:
    - 포트폴리오 구성 방향 (Portfolio Allocation)
    - 주의해야 할 점 (Points of Caution)
 
-## Dependencies
-- langchain>=0.1.0
-- langchain-upstage>=0.0.1
-- langchain-community>=0.0.10
-- langchain-ollama>=0.0.1
-- langchain-openai>=0.0.2
-- langgraph>=0.0.10
-- chromadb>=0.4.18
-- python-dotenv>=1.0.0
-- termcolor>=2.4.0
-- tavily-python>=0.2.6
-- ollama>=0.1.6
+---
+
+## FastAPI Integration
+
+A FastAPI server is provided for programmatic access:
+
+### 주요 기능
+
+- **/generate_report** : Generate a tailored financial report by providing a query and date.
+- **/download_report/{report_date}** : Download generated reports (.md files).
+- **/health** : Server health check.
+
+### 서버 실행
+
+```bash
+uvicorn server:app --host 0.0.0.0 --port 8000
+```
+
+### 보고서 생성 예시
+
+```http
+POST /generate_report
+Content-Type: application/json
+
+{
+  "query": "오늘의 금융 시장 동향과 투자 전략을 분석하여 보고서를 작성해주세요",
+  "date": "2025-05-18"  // (Optional, defaults to today)
+}
+```
+
+**Response Example:**
+```json
+{
+  "status": "success",
+  "report": "오늘의 금융 레포트 ...",
+  "date": "2025-05-18"
+}
+```
+**On Error:**
+```json
+{
+  "status": "error",
+  "error": "에러 메시지"
+}
+```
+
