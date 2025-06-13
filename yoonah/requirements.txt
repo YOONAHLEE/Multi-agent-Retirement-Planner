@@ -14,3 +14,9 @@ termcolor>=2.4.0
 tavily-python>=0.2.6
 ollama>=0.1.6
 feedparser
+langchain_chroma>=0.2.4
+pandas
+holidays
+pyppeteer
+apscheduler
+fastapi[standard]

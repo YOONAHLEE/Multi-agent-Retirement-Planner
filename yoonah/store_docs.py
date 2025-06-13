@@ -3,14 +3,13 @@ from dotenv import load_dotenv
 import requests
 from bs4 import BeautifulSoup
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
 from langchain_ollama import OllamaEmbeddings 
 # from langchain.vectorstores import FAISS
 from langchain_chroma import Chroma
 from langchain.document_loaders import PyPDFLoader, WebBaseLoader
 
 # from langchain.chat_models import ChatOpenAI
-from langchain_groq import ChatGroq
 from langchain.chains import RetrievalQA
 # from langchain.schema import Document
 from langchain_core.documents import Document as LangchainDocument
@@ -24,14 +23,19 @@ import pandas as pd
 import holidays
 
 
-load_dotenv("openai.env")
+load_dotenv(".env")
 
 # 모델 세팅
 # llm = ChatOpenAI(model="gpt-4", temperature=0.3)
-llm = ChatGroq(model='llama-3.3-70b-versatile')
+# llm = ChatGroq(model='llama-3.3-70b-versatile')
 # embedding_model = OllamaEmbeddings(model='bge-m3')
 vectorstore_path = "vectordb"
-embedding_model = OpenAIEmbeddings()
+embedding_model = OpenAIEmbeddings(model="text-embedding-3-small")
+# 요약 문서가 없다면 새로 생성하고 저장
+llm = ChatOpenAI(
+    model="gpt-4-1106-preview",
+    api_key=os.getenv("OPENAI_API_KEY")
+)
 
 
 def get_previous_business_day(date: datetime) -> datetime:
@@ -204,9 +208,8 @@ def fetch_daily_reports(target_date, date_str):
         print("\n=== Full URLs ===")
         print(df)
 
-        
         for each in all_reports:
-            if each["date"] == today:
+            if each["date"] == target_date:
                 doc_title = re.sub(r'[^\w\-_\. ]', '_', each['title'])
                 print(each['title'], doc_title)
                 pdf_filename = f"{doc_title}.pdf"

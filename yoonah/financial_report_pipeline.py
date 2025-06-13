@@ -7,7 +7,9 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.chains.summarize import load_summarize_chain
 from langchain.vectorstores import Chroma
 from langchain_ollama import OllamaEmbeddings
-from langchain_openai import ChatOpenAI
+from langchain_openai import OpenAIEmbeddings
+# from langchain_openai import ChatOpenAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain.schema import Document
 from langchain.prompts import PromptTemplate
 from langgraph.graph import StateGraph, START, END
@@ -19,8 +21,15 @@ from langchain_core.prompts import ChatPromptTemplate
 from typing import Annotated, List, Literal, TypedDict
 from store_docs import get_target_date
 from langchain_core.runnables.graph_mermaid import MermaidDrawMethod
+# from langchain_openrouter import ChatOpenRouter
 import warnings
 from termcolor import colored
+from typing import Optional, ClassVar
+
+from langchain_core.utils.utils import secret_from_env
+from pydantic import Field, SecretStr
+
+
 warnings.filterwarnings("ignore")
 # API 키 및 디렉토리 설정
 load_dotenv("openai.env")
@@ -28,9 +37,34 @@ load_dotenv("openai.env")
 TODAY = date.today().isoformat()
 SUMMARY_CACHE_PATH = "cache_db"
 
-embeddings =  OllamaEmbeddings(model='bge-m3')
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+
 # 요약 문서가 없다면 새로 생성하고 저장
-llm = ChatOpenAI(model_name="gpt-4.1-mini")
+class ChatOpenRouter(ChatOpenAI):
+    openai_api_key: Optional[SecretStr] = Field(
+        alias="api_key",
+        default_factory=secret_from_env("OPENROUTER_API_KEY", default=None),
+    )
+    @property
+    def lc_secrets(self) -> dict[str, str]:
+        return {"openai_api_key": "OPENROUTER_API_KEY"}
+
+    def __init__(self,
+                 openai_api_key: Optional[str] = None,
+                 **kwargs):
+        openai_api_key = (
+            openai_api_key or os.environ.get("OPENROUTER_API_KEY")
+        )
+        super().__init__(
+            base_url="https://openrouter.ai/api/v1",
+            openai_api_key=openai_api_key,
+            **kwargs
+        )
+
+llm = ChatOpenRouter(
+    model_name="anthropic/claude-3.7-sonnet:thinking"
+)
+
 summarize_chain = load_summarize_chain(llm, chain_type="map_reduce")
 
 ### Define State
@@ -102,6 +136,7 @@ def load_docs(state):
             files, output_format='markdown', 
             coordinates=False) 
         documents = parser.load()
+        print(f"Found {len(documents)} documents to process")
         
         # 메타데이터에서 base64 인코딩된 이미지 데이터 제거
         # for doc in documents:
