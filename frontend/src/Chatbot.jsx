@@ -3,7 +3,7 @@ import './Chatbot.css';
 import Sidebar from './Sidebar';
 
 const CHAT_API_URL = 'http://localhost:8000/api/chat';
-const NEWS_API_URL = 'http://localhost:8000/api/news';
+const NEWS_API_URL = 'http://localhost:8000/news';
 
 function Chatbot() {
     const [messages, setMessages] = useState([
