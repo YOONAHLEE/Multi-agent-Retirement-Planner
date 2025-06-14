@@ -19,7 +19,6 @@ import glob
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from typing import Annotated, List, Literal, TypedDict
-from store_docs import get_target_date
 from langchain_core.runnables.graph_mermaid import MermaidDrawMethod
 # from langchain_openrouter import ChatOpenRouter
 import warnings
@@ -28,11 +27,15 @@ from typing import Optional, ClassVar
 
 from langchain_core.utils.utils import secret_from_env
 from pydantic import Field, SecretStr
+try:
+    from store_docs import get_target_date, fetch_daily_reports
+except:
+    from .store_docs import get_target_date, fetch_daily_reports
 
 
 warnings.filterwarnings("ignore")
 # API 키 및 디렉토리 설정
-load_dotenv("openai.env")
+load_dotenv()
 
 TODAY = date.today().isoformat()
 SUMMARY_CACHE_PATH = "cache_db"
@@ -99,8 +102,7 @@ def load_docs(state):
     state["last_business_day"] = business_day_str
     state["db_path"] = SUMMARY_CACHE_PATH
     
-    print(state)
-
+    # print(state)
     if not os.path.exists(state["db_path"]):
         os.makedirs(state["db_path"])
     
@@ -129,7 +131,7 @@ def load_docs(state):
         # load documents
         path = f"data/{state['last_business_day']}"
         if not os.path.exists(path):
-            from store_docs import fetch_daily_reports
+            # from store_docs import fetch_daily_reports
             fetch_daily_reports(business_day.strftime('%y.%m.%d'), business_day_str)
         files = glob.glob(f"{path}/**.pdf", recursive=True)
         parser = UpstageDocumentParseLoader(
@@ -146,6 +148,8 @@ def load_docs(state):
         #                       if not isinstance(v, str) or not v.startswith('/9j/')}
         
         state["documents"] = documents
+        # for batch in batch_documents(documents):
+        #     vectordb.add_documents(batch)  
         vectordb.add_documents(documents)  # Save documents into vector DB
     return state
 # 조건 분기: 쿼리에 "보고서" 포함 여부
@@ -380,12 +384,11 @@ if __name__ == "__main__":
 
     # Visualize graph
     # png_graph = adaptive_rag.get_graph().draw_mermaid_png()
-    png_graph = adaptive_rag.get_graph().draw_mermaid_png(
-        draw_method=MermaidDrawMethod.PYPPETEER
-    )
-
-    with open("graph.png", "wb") as f:
-        f.write(png_graph)
+    # png_graph = adaptive_rag.get_graph().draw_mermaid_png(
+    #     draw_method=MermaidDrawMethod.PYPPETEER
+    # )
+    # with open("graph.png", "wb") as f:
+    #     f.write(png_graph)
 
 
 
