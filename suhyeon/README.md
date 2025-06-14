@@ -17,6 +17,7 @@ suhyeon/
 ├── main.py                 # FastAPI 서버 실행 파일
 ├── requirements.txt        # 의존성 패키지 목록
 ├── .env                    # 환경 변수 설정 파일
+├── embedding.py           # 임베딩 파일 
 ├── README.md              # 프로젝트 문서
 ├── api/
 │   └── v1/
