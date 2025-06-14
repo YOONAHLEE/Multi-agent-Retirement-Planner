@@ -3,7 +3,7 @@ from langchain_openai import ChatOpenAI
 from config.config import MODEL_CONFIG
 
 def rewrite(state):
-    print("==== [QUERY REWRITE] ====")
+    # print("==== [QUERY REWRITE] ====")
     # 현재 상태에서 메시지 추출
     messages = state["messages"]
     # 원래 질문 추출

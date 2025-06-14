@@ -68,23 +68,23 @@ def display_final_result(
     # 그래프 실행
     final_state = graph.invoke(inputs, config)
     
-    # 최종 메시지 확인 및 출력
-    if 'messages' in final_state and final_state['messages']:
-        last_message = final_state['messages'][-1]  # 마지막 메시지
+    # # 최종 메시지 확인 및 출력
+    # if 'messages' in final_state and final_state['messages']:
+    #     last_message = final_state['messages'][-1]  # 마지막 메시지
         
-        print("\n" + "=" * 50)
-        print("🔄 Final Result 🔄")
-        print("- " * 25)
+    #     print("\n" + "=" * 50)
+    #     print("🔄 Final Result 🔄")
+    #     print("- " * 25)
         
-        if hasattr(last_message, 'content'):
-            print(last_message.content)
-        else:
-            print(str(last_message))
-    else:
-        print("\n" + "=" * 50)
-        print("🔄 Final Result 🔄")
-        print("- " * 25)
-        print(str(final_state))
+    #     if hasattr(last_message, 'content'):
+    #         print(last_message.content)
+    #     else:
+    #         print(str(last_message))
+    # else:
+    #     print("\n" + "=" * 50)
+    #     print("🔄 Final Result 🔄")
+    #     print("- " * 25)
+    #     print(str(final_state))
     
     # 콜백 함수가 있는 경우 실행
     if callback:

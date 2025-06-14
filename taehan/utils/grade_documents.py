@@ -59,11 +59,11 @@ def grade_documents(state) -> Literal["generate", "rewrite"]:
 
     # 관련성 여부에 따른 결정
     if score == "yes":
-        print("==== [DECISION: DOCS RELEVANT] ====")
-        print(retrieved_docs)
+        # print("==== [DECISION: DOCS RELEVANT] ====")
+        # print(retrieved_docs)
         return "generate"
 
     else:
-        print("==== [DECISION: DOCS NOT RELEVANT] ====")
-        print(score)
+        # print("==== [DECISION: DOCS NOT RELEVANT] ====")
+        # print(score)
         return "rewrite"
