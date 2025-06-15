@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://retirement-DB:retirement-DB@localhost:5432/chat_history
+    restart: unless-stopped
+    network_mode: host
+
+# backend 서비스는 host 네트워크를 사용합니다.
+# DATABASE_URL의 host는 반드시 localhost로 설정되어야 합니다.
+# PostgreSQL 컨테이너도 host 네트워크로 실행해야 합니다.
+# 8000번 포트(backend)가 외부에 노출됩니다.

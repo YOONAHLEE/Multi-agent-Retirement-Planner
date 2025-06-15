@@ -2,16 +2,22 @@ import React, { useState } from 'react';
 import './Sidebar.css';
 import { FaBars, FaPlus, FaCommentDots } from 'react-icons/fa';
 
-const chatHistory = [
-    { id: 1, title: '최근 채팅 1' },
-    { id: 2, title: '최근 채팅 2' },
-    { id: 3, title: '최근 채팅 3' },
-    { id: 4, title: '최근 채팅 4' },
-    { id: 5, title: '최근 채팅 5' },
-];
-
-function Sidebar() {
+function Sidebar({ onNewSession, sessions }) {
     const [open, setOpen] = useState(true);
+
+    const handleNewChat = async () => {
+        try {
+            const res = await fetch('http://localhost:8000/retirement/sessions', {
+                method: 'POST',
+                credentials: 'include',
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const data = await res.json();
+            if (onNewSession) onNewSession(data);
+        } catch (e) {
+            alert('새 채팅 세션 생성에 실패했습니다.');
+        }
+    };
 
     if (!open) {
         return (
@@ -31,19 +37,16 @@ function Sidebar() {
                 </button>
                 <span className="sidebar-logo">퇴직연금<br />분석 서비스</span>
             </div>
-            <button className="sidebar-newchat">
+            <button className="sidebar-newchat" onClick={handleNewChat}>
                 <FaPlus /> 새 채팅
             </button>
-            <div className="sidebar-history">
-                <div className="sidebar-history-title">최근 채팅</div>
-                <ul>
-                    {chatHistory.map(chat => (
-                        <li key={chat.id} className="sidebar-history-item">
-                            <FaCommentDots style={{ marginRight: 8 }} />
-                            <span>{chat.title}</span>
-                        </li>
-                    ))}
-                </ul>
+            <div className="sidebar-session-list">
+                {sessions && sessions.length > 0 && sessions.map(session => (
+                    <div key={session.session_id} className="sidebar-history-item">
+                        <FaCommentDots style={{ marginRight: 8 }} />
+                        <span>{session.session_id.slice(0, 8)}</span>
+                    </div>
+                ))}
             </div>
             <div className="sidebar-footer">
                 <div className="sidebar-makers-title">만든 사람</div>

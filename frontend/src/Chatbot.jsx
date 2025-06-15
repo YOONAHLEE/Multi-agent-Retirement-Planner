@@ -14,6 +14,8 @@ function Chatbot() {
     const [news, setNews] = useState([]);
     const [expanded, setExpanded] = useState(null); // 'news' | 'stock' | null
     const messagesEndRef = useRef(null);
+    const [session, setSession] = useState(null); // { session_id, user_id, started_at }
+    const [sessions, setSessions] = useState([]); // 세션 목록
 
     useEffect(() => {
         fetch(NEWS_API_URL)
@@ -52,9 +54,15 @@ function Chatbot() {
         }
     };
 
+    // 새 세션 생성 시 목록에 추가
+    const handleNewSession = (newSession) => {
+        setSession(newSession);
+        setSessions(prev => [newSession, ...prev]);
+    };
+
     return (
         <div style={{ display: 'flex', minHeight: '100vh', background: 'linear-gradient(120deg, #181A20 60%, #f7f8fa 100%)' }}>
-            <Sidebar />
+            <Sidebar onNewSession={handleNewSession} sessions={sessions} />
             <main style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0', gap: '32px' }}>
                 <div className="chatbot-container" style={{ height: '80vh', maxWidth: '900px', width: '100%' }}>
                     <div className="chatbot-header">퇴직연금 Agent</div>
@@ -89,13 +97,6 @@ function Chatbot() {
                                 ? <li>뉴스를 불러오는 중...</li>
                                 : news.slice(0, 3).map((item, idx) => <li key={idx}>• {item.title}</li>)}
                         </ul>
-                    </div>
-                    <div className="stock-widget" style={{ background: '#23272f', color: '#fff', borderRadius: '16px', boxShadow: '0 4px 24px rgba(0,0,0,0.10)', padding: '24px', flex: 1, minHeight: '200px', overflowY: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', cursor: 'pointer' }}
-                        onClick={() => setExpanded('stock')} title="클릭 시 확대">
-                        <h3 style={{ margin: '0 0 12px 0', fontSize: '1.1rem', color: '#29a6e3' }}>주식 그래프</h3>
-                        <div style={{ width: '100%', height: '120px', background: '#181A20', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#b0bec5' }}>
-                            (그래프 영역 예시)
-                        </div>
                     </div>
                 </div>
                 {/* 오버레이 모달 */}
