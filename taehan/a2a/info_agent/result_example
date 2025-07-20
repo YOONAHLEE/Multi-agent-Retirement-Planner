@@ -1,0 +1,43 @@
+{'id': '347a96bb-caf0-4368-b5d9-bf213a5150db',
+ 'jsonrpc': '2.0', 
+ 'result': {
+    'artifacts': [{
+        'artifactId': 'e005e5d5-67b7-40c8-9391-cc7e57521a86', 
+        'name': 'conversion_result', 
+        'parts': [{'kind': 'text', 'text': 'IRP의 연간 최대 납입 가능금액은 1,800만원입니다.\n\n**Source**\n- (context provided)'}]
+        }], 
+        'contextId': '35ef1725-423f-4ab5-aa6a-d828af8d7226', 
+        'history': [
+            {
+                'contextId': '35ef1725-423f-4ab5-aa6a-d828af8d7226', 
+                'kind': 'message', 
+                'messageId': '773cb0d229ef46379e150b7d9d9bf8d7', 
+                'parts': [{'kind': 'text', 'text': 'IRP의 연간 최대 납입 가능금액은 얼마인가요?'}], 
+                'role': 'user', 'taskId': 'b36e5ea4-1813-4d44-9f1e-3ea3310e0ce1'
+            }, 
+            {
+                'contextId': '35ef1725-423f-4ab5-aa6a-d828af8d7226', 
+                'kind': 'message', 
+                'messageId': 'aab79f5b-f32e-40da-80cd-90aa041456aa', 
+                'parts': [{'kind': 'text', 'text': '도구 호출 중...'}], 
+                'role': 'agent', 
+                'taskId': 'b36e5ea4-1813-4d44-9f1e-3ea3310e0ce1'
+            }, 
+            {
+                'contextId': '35ef1725-423f-4ab5-aa6a-d828af8d7226', 
+                'kind': 'message', 
+                'messageId': '771dafe4-bfa7-484c-b3aa-d5cafc9a683e', 
+                'parts': [{'kind': 'text', 'text': '검색 중...'}], 
+                'role': 'agent', 
+                'taskId': 'b36e5ea4-1813-4d44-9f1e-3ea3310e0ce1'
+            }, 
+            {
+                'contextId': '35ef1725-423f-4ab5-aa6a-d828af8d7226', 
+                'kind': 'message', 
+                'messageId': '661604f0-4ef2-4edf-b46a-aed4b64516af', 
+                'parts': [{'kind': 'text', 'text': '답변을 생성하는 중...'}], 
+                'role': 'agent', 'taskId': 'b36e5ea4-1813-4d44-9f1e-3ea3310e0ce1'
+            }], 
+        'id': 'b36e5ea4-1813-4d44-9f1e-3ea3310e0ce1', 
+        'kind': 'task', 
+        'status': {'state': 'completed', 'timestamp': '2025-06-13T19:30:17.656809+00:00'}}}
