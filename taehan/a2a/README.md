@@ -11,6 +11,18 @@
 4. report_agent : 금융 문서 분석 및 실시간 시장 정보를 요약하여 금융 보고서를 자동으로 생성하는 Agent
 5. Pension Analytics Agent (추후 연결 예정) : 퇴직연금 계좌를 분석하여 맞춤형 투자 전략, 수익률 분석, 세금 최적화 등을 진행하는 Agent
 
+## Agent 공통 구조
+```
+each_agent/             # info, report, tax_strategy
+├── __init__.py
+├── __main__.py         # Agent FastAPI 서버 실행 파일
+├── .env                # 환경 변수 설정 파일
+├── agent_executor.py   # Agent의 요청 처리 로직
+├── agent.py            # Agent 클래스 정의 파일
+├── test_client.py      # Agent 동작 체크를 위한 테스트 클라이언트
+└── ...                 # 각 Agent 구성 폴더 및 파일(config, nodes, graph 등)
+```
+
 ## Demo UI
 <img src="demo.PNG" alt="App_ui_demo" width="400"/>
 
